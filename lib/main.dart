@@ -10,14 +10,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pendaftaran Seminar Estetik',
+      title: 'Obsidian Seminar System',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFFFF5F7), // Latar belakang pink susu super lembut
+        scaffoldBackgroundColor: const Color(0xFF090A0C), 
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFFD1DC), // Soft Pastel Pink
-          primary: const Color(0xFFFFB7CE),   // Pink muda utama yang cantik
-          secondary: const Color(0xFFFFE3EC), // Pink pastel sangat muda
-          background: const Color(0xFFFFF5F7),
+          seedColor: const Color(0xFF1E293B),
+          primary: const Color(0xFF16181C),     
+          secondary: const Color(0xFF94A3B8),   
+          background: const Color(0xFF090A0C),
         ),
         useMaterial3: true,
         fontFamily: 'Sans-Serif',
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Model Data Pengajuan Seminar
 class PengajuanSeminar {
   final int id;
   String namaMahasiswa;
@@ -84,7 +83,6 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
   int get totalPending => _listSeminar.where((s) => s.status == 'Pending').length;
   int get totalDisetujui => _listSeminar.where((s) => s.status == 'Disetujui').length;
 
-  // DIALOG EDIT DATA - POP UP CANTIK & FIX DROPDOWN STATE
   void _showEditSeminarDialog(PengajuanSeminar seminar) {
     final editNamaCtrl = TextEditingController(text: seminar.namaMahasiswa);
     final editNimCtrl = TextEditingController(text: seminar.nim);
@@ -98,51 +96,41 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
         return StatefulBuilder(
           builder: (context, setDialogState) {
             return AlertDialog(
-              backgroundColor: Colors.white,
+              backgroundColor: const Color(0xFF16181C), 
               surfaceTintColor: Colors.transparent,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-              title: Row(
-                children: [
-                  const Icon(Icons.auto_awesome, color: Color(0xFFFFB7CE), size: 20),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Edit Data Pengajuan',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF6C5358)),
-                  ),
-                ],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side: const BorderSide(color: Color(0xFF2E323A), width: 1),
+              ),
+              title: const Text(
+                'Update Repository Data',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextField(
-                      controller: editNamaCtrl,
-                      decoration: _inputDecoration('Nama Mahasiswa'),
-                    ),
+                    TextField(controller: editNamaCtrl, style: const TextStyle(color: Colors.white), decoration: _inputDecoration('Nama')),
                     const SizedBox(height: 12),
-                    TextField(
-                      controller: editNimCtrl,
-                      decoration: _inputDecoration('NIM'),
-                      keyboardType: TextInputType.number,
-                    ),
+                    TextField(controller: editNimCtrl, style: const TextStyle(color: Colors.white), decoration: _inputDecoration('NIM'), keyboardType: TextInputType.number),
                     const SizedBox(height: 12),
-                    TextField(
-                      controller: editJudulCtrl,
-                      decoration: _inputDecoration('Judul Penelitian'),
-                      maxLines: 2,
-                    ),
+                    TextField(controller: editJudulCtrl, style: const TextStyle(color: Colors.white), decoration: _inputDecoration('Judul'), maxLines: 2),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
+                      dropdownColor: const Color(0xFF16181C),
                       value: editJenis,
-                      decoration: _inputDecoration('Jenis Seminar'),
-                      items: ['Proposal', 'Hasil', 'Skripsi'].map((j) => DropdownMenuItem(value: j, child: Text(j))).toList(),
+                      style: const TextStyle(color: Colors.white),
+                      decoration: _inputDecoration('Jenis'),
+                      items: ['Proposal', 'Hasil', 'Skripsi'].map((j) => DropdownMenuItem(value: j, child: Text(j, style: const TextStyle(color: Colors.white)))).toList(),
                       onChanged: (val) => setDialogState(() => editJenis = val!),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
+                      dropdownColor: const Color(0xFF16181C),
                       value: editStatus,
-                      decoration: _inputDecoration('Status Kelayakan'),
-                      items: ['Pending', 'Disetujui', 'Ditolak'].map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                      style: const TextStyle(color: Colors.white),
+                      decoration: _inputDecoration('Status'),
+                      items: ['Pending', 'Disetujui', 'Ditolak'].map((s) => DropdownMenuItem(value: s, child: Text(s, style: const TextStyle(color: Colors.white)))).toList(),
                       onChanged: (val) => setDialogState(() => editStatus = val!),
                     ),
                   ],
@@ -151,7 +139,7 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Batal', style: TextStyle(color: Colors.black38, fontWeight: FontWeight.w600)),
+                  child: const Text('Cancel', style: TextStyle(color: Color(0xFF94A3B8))),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -165,13 +153,11 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFB7CE),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: const Text('Simpan', style: TextStyle(fontWeight: FontWeight.bold)),
+                  child: const Text('Save Changes', style: TextStyle(fontWeight: FontWeight.bold)),
                 ),
               ],
             );
@@ -183,277 +169,257 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double containerWidth = screenWidth > 700 ? 650 : screenWidth;
+
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            const Icon(Icons.star_rounded, color: Color(0xFFFFB7CE)),
-            const SizedBox(width: 8),
-            const Text(
-              'Seminar TA',
-              style: TextStyle(color: Color(0xFF5A464A), fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 0.5),
-            ),
-          ],
-        ),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: false,
-        shape: const Border(bottom: BorderSide(color: Color(0xFFFFE6EC), width: 2)),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(28.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                bool isWide = constraints.maxWidth > 800;
-                return Flex(
-                  direction: isWide ? Axis.horizontal : Axis.vertical,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // =========================================================
-                    // FORM INPUT PUTIH BORDER SOFT PINK BULAT LUAR (KIRI)
-                    // =========================================================
-                    Expanded(
-                      flex: isWide ? 2 : 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFFFFE3EC).withOpacity(0.4),
-                              blurRadius: 16,
-                              offset: const Offset(0, 8),
-                            )
-                          ],
-                          border: Border.all(color: const Color(0xFFFFE3EC), width: 1.5),
-                        ),
-                        padding: const EdgeInsets.all(28.0),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+      body: SafeArea(
+        child: Center(
+          child: SizedBox(
+            width: containerWidth,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'CORE.WORKSPACE',
+                    style: TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+                  ),
+                  const Text(
+                    'Sistem Log Kelayakan Seminar Mahasiswa',
+                    style: TextStyle(color: Color(0xFF64748B), fontSize: 12, fontWeight: FontWeight.w400, letterSpacing: 0.2),
+                  ),
+                  const SizedBox(height: 24),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildSlimMetric('ALL DATA', '$totalPengajuan', Colors.white),
+                      _buildSlimMetric('QUEUE', '$totalPending', const Color(0xFFF59E0B)),
+                      _buildSlimMetric('VERIFIED', '$totalDisetujui', const Color(0xFF10B981)),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF16181C), 
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFF2E323A), width: 1), 
+                    ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'INPUT TERMINAL RECORD',
+                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 1),
+                          ),
+                          const SizedBox(height: 18),
+                          TextFormField(
+                            controller: _namaController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: _inputDecoration('Nama Lengkap Mahasiswa'),
+                            validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  const Icon(Icons.favorite, color: Color(0xFFFFB7CE), size: 20),
-                                  const SizedBox(width: 8),
-                                  const Text(
-                                    'Pendaftaran Baru',
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF5A464A)),
-                                  ),
-                                ],
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _nimController,
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: _inputDecoration('NIM'),
+                                  keyboardType: TextInputType.number,
+                                  validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
+                                ),
                               ),
-                              const SizedBox(height: 24),
-                              TextFormField(
-                                controller: _namaController,
-                                decoration: _inputDecoration('Nama Lengkap Mahasiswa'),
-                                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: _nimController,
-                                      decoration: _inputDecoration('NIM'),
-                                      keyboardType: TextInputType.number,
-                                      validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                    child: DropdownButtonFormField<String>(
-                                      value: _selectedJenisSeminar,
-                                      decoration: _inputDecoration('Tipe Seminar'),
-                                      items: ['Proposal', 'Hasil', 'Skripsi'].map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
-                                      onChanged: (val) => setState(() => _selectedJenisSeminar = val!),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 16),
-                              TextFormField(
-                                controller: _judulController,
-                                decoration: _inputDecoration('Judul Penelitian'),
-                                maxLines: 2,
-                                validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
-                              ),
-                              const SizedBox(height: 28),
-                              SizedBox(
-                                width: double.infinity,
-                                height: 48,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      setState(() {
-                                        int nextId = _listSeminar.isEmpty ? 1 : _listSeminar.last.id + 1;
-                                        _listSeminar.add(PengajuanSeminar(
-                                          id: nextId,
-                                          namaMahasiswa: _namaController.text,
-                                          nim: _nimController.text,
-                                          jenisSeminar: _selectedJenisSeminar,
-                                          judulPenelitian: _judulController.text,
-                                          status: 'Pending',
-                                        ));
-                                      });
-                                      _namaController.clear();
-                                      _nimController.clear();
-                                      _judulController.clear();
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFFFFB7CE),
-                                    foregroundColor: Colors.white,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                                    shadowColor: const Color(0xFFFFB7CE).withOpacity(0.5),
-                                  ),
-                                  child: const Text('Kirim Pengajuan ✨', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  dropdownColor: const Color(0xFF16181C),
+                                  value: _selectedJenisSeminar,
+                                  style: const TextStyle(color: Colors.white),
+                                  decoration: _inputDecoration('Kategori'),
+                                  items: ['Proposal', 'Hasil', 'Skripsi'].map((type) => DropdownMenuItem(value: type, child: Text(type, style: const TextStyle(color: Colors.white)))).toList(),
+                                  onChanged: (val) => setState(() => _selectedJenisSeminar = val!),
                                 ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 28, height: 28),
-                    // =========================================================
-                    // RINGKASAN STATUS MERAH MUDA ESTETIK (KANAN)
-                    // =========================================================
-                    Expanded(
-                      flex: isWide ? 1 : 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFFFFE3EC).withOpacity(0.4),
-                              blurRadius: 16,
-                              offset: const Offset(0, 8),
-                            )
-                          ],
-                          border: Border.all(color: const Color(0xFFFFE3EC), width: 1.5),
-                        ),
-                        padding: const EdgeInsets.all(28.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.analytics_outlined, color: Color(0xFFFFB7CE), size: 20),
-                                const SizedBox(width: 8),
-                                const Text(
-                                  'Statistik',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF5A464A)),
-                                ),
-                              ],
+                          const SizedBox(height: 12),
+                          TextFormField(
+                            controller: _judulController,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: _inputDecoration('Judul Penelitian / Proyek'),
+                            maxLines: 2,
+                            validator: (v) => v!.isEmpty ? 'Wajib diisi' : null,
+                          ),
+                          const SizedBox(height: 18),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 42,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    int nextId = _listSeminar.isEmpty ? 1 : _listSeminar.last.id + 1;
+                                    _listSeminar.add(PengajuanSeminar(
+                                      id: nextId,
+                                      namaMahasiswa: _namaController.text,
+                                      nim: _nimController.text,
+                                      jenisSeminar: _selectedJenisSeminar,
+                                      judulPenelitian: _judulController.text,
+                                      status: 'Pending',
+                                    ));
+                                  });
+                                  _namaController.clear();
+                                  _nimController.clear();
+                                  _judulController.clear();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white, 
+                                foregroundColor: Colors.black,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                              ),
+                              child: const Text('COMMIT NEW RECORD', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
                             ),
-                            const SizedBox(height: 20),
-                            _buildSimpleMetric('Total Masuk', '$totalPengajuan', const Color(0xFF5A464A), const Color(0xFFFFE3EC)),
-                            _buildSimpleMetric('Menunggu', '$totalPending', const Color(0xFFDCA134), const Color(0xFFFFF6E5)),
-                            _buildSimpleMetric('Disetujui', '$totalDisetujui', const Color(0xFF5BB27A), const Color(0xFFEBF7EE)),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: 36),
-            // =============================================================
-            // TABEL DATA MINIMALIS SANGAT BULAT & ESTETIK (BAWAH)
-            // =============================================================
-            Row(
-              children: [
-                const Icon(Icons.list_alt_rounded, color: Color(0xFFFFB7CE), size: 22),
-                const SizedBox(width: 8),
-                const Text(
-                  'Log Pengajuan Terbaru',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF5A464A)),
-                ),
-              ],
-            ),
-            const SizedBox(height: 14),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: const Color(0xFFFFE3EC), width: 1.5),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFFFE3EC).withOpacity(0.3),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  )
+                  ),
+                  const SizedBox(height: 32),
+
+                  const Text(
+                    'REGISTRY BUFFER LOG',
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF64748B), letterSpacing: 1),
+                  ),
+                  const SizedBox(height: 14),
+                  
+                  _listSeminar.isEmpty
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          child: Text('Empty database buffer.', style: TextStyle(color: Color(0xFF64748B))),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _listSeminar.length,
+                          itemBuilder: (context, index) {
+                            final seminar = _listSeminar[index];
+                            return _buildFeedCard(seminar);
+                          },
+                        ),
                 ],
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    headingRowColor: MaterialStateProperty.all(const Color(0xFFFFF0F3)),
-                    headingTextStyle: const TextStyle(color: Color(0xFF7A5F64), fontWeight: FontWeight.bold, fontSize: 13),
-                    dataTextStyle: const TextStyle(color: Color(0xFF4A3B3D), fontSize: 13),
-                    horizontalMargin: 24,
-                    columnSpacing: 34,
-                    columns: const [
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Nama Lengkap')),
-                      DataColumn(label: Text('NIM')),
-                      DataColumn(label: Text('Kategori')),
-                      DataColumn(label: Text('Judul Penelitian')),
-                      DataColumn(label: Text('Status')),
-                      DataColumn(label: Text('Aksi')),
-                    ],
-                    rows: _listSeminar.map((seminar) {
-                      return DataRow(cells: [
-                        DataCell(Text('#${seminar.id}', style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFFFFB7CE)))),
-                        DataCell(Text(seminar.namaMahasiswa, style: const TextStyle(fontWeight: FontWeight.w500))),
-                        DataCell(Text(seminar.nim)),
-                        DataCell(Text(seminar.jenisSeminar)),
-                        DataCell(Text(seminar.judulPenelitian)),
-                        DataCell(
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: seminar.status == 'Disetujui' 
-                                  ? const Color(0xFFEBF7EE) 
-                                  : (seminar.status == 'Ditolak' ? const Color(0xFFFDF0F0) : const Color(0xFFFFF6E5)),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              seminar.status,
-                              style: TextStyle(
-                                color: seminar.status == 'Disetujui' 
-                                      ? const Color(0xFF388E3C) 
-                                      : (seminar.status == 'Ditolak' ? const Color(0xFFD32F2F) : const Color(0xFFF57C00)), 
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          IconButton(
-                            icon: const Icon(Icons.favorite_border, color: Color(0xFFFFB7CE), size: 20),
-                            onPressed: () => _showEditSeminarDialog(seminar),
-                          ),
-                        ),
-                      ]);
-                    }).toList(),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeedCard(PengajuanSeminar seminar) {
+    Color statusColor;
+    Color statusBg;
+    if (seminar.status == 'Disetujui') {
+      statusColor = const Color(0xFF10B981);
+      statusBg = const Color(0xFF10B981).withOpacity(0.12);
+    } else if (seminar.status == 'Ditolak') {
+      statusColor = const Color(0xFFEF4444);
+      statusBg = const Color(0xFFEF4444).withOpacity(0.12);
+    } else {
+      statusColor = const Color(0xFFF59E0B);
+      statusBg = const Color(0xFFF59E0B).withOpacity(0.12);
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF16181C), 
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF2E323A)),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'UID-${seminar.id}',
+                    style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF475569), fontSize: 12, letterSpacing: 0.5),
                   ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF2E323A),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      seminar.jenisSeminar.toUpperCase(),
+                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFFCBD5E1), letterSpacing: 0.5),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: statusBg,
+                  borderRadius: BorderRadius.circular(4), 
+                ),
+                child: Text(
+                  seminar.status.toUpperCase(),
+                  style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 10, letterSpacing: 0.5),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            seminar.namaMahasiswa,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 0.3),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            'SYS_NIM // ${seminar.nim}',
+            style: const TextStyle(fontSize: 11, color: Color(0xFF64748B), fontFamily: 'Courier'),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10.0),
+            child: Divider(color: Color(0xFF2E323A), height: 1),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Text(
+                  seminar.judulPenelitian,
+                  style: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8), height: 1.4),
+                ),
+              ),
+              const SizedBox(width: 12),
+              IconButton(
+                icon: const Icon(Icons.tune_rounded, color: Colors.white, size: 20), 
+                onPressed: () => _showEditSeminarDialog(seminar),
+                constraints: const BoxConstraints(),
+                padding: EdgeInsets.zero,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -461,29 +427,30 @@ class _SeminarDashboardPageState extends State<SeminarDashboardPage> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: const TextStyle(color: Color(0xFF8A7175), fontSize: 13, fontWeight: FontWeight.w500),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      labelStyle: const TextStyle(color: Color(0xFF64748B), fontSize: 12, fontWeight: FontWeight.w500),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       filled: true,
-      fillColor: const Color(0xFFFFFBFB),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFFFE3EC))),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFFFE3EC), width: 1.2)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Color(0xFFFFB7CE), width: 1.8)),
+      fillColor: const Color(0xFF090A0C), 
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Color(0xFF2E323A))),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Color(0xFF2E323A))),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Colors.white, width: 1.2)),
     );
   }
 
-  Widget _buildSimpleMetric(String label, String value, Color textColor, Color badgeColor) {
+  Widget _buildSlimMetric(String label, String value, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: badgeColor,
-        borderRadius: BorderRadius.circular(16),
+        color: const Color(0xFF16181C),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFF2E323A)),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Color(0xFF5A464A), fontSize: 14, fontWeight: FontWeight.w500)),
-          Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: textColor)),
+          Text(label, style: const TextStyle(color: Color(0xFF64748B), fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+          const SizedBox(width: 10),
+          // SEKARANG SUDAH AMAN (Menggunakan FontWeight.w900)
+          Text(value, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: color)),
         ],
       ),
     );
